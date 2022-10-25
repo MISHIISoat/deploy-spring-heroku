@@ -14,6 +14,7 @@ import java.util.List;
 
 import static org.springframework.http.ResponseEntity.*;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/todo")
 public class TodoController {
@@ -44,6 +45,7 @@ public class TodoController {
 
     @GetMapping
     ResponseEntity<List<TodoDto>> getAll() {
+        log.info("get all todos");
         var todoListDto = todoService.findAll()
                 .stream().map(TodoDtoMapper::to)
                 .toList();
@@ -52,6 +54,7 @@ public class TodoController {
 
     @GetMapping("/{id}")
     ResponseEntity<TodoDto> getById(@PathVariable("id") Long todoId) throws TodoNotFoundException {
+        log.info("get by id");
         var todoDto = TodoDtoMapper.to(todoService.findById(todoId));
         return ResponseEntity.ok(todoDto);
     }
